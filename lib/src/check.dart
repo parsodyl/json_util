@@ -80,14 +80,6 @@ bool hasToJsonMethod(dynamic node) {
   return true;
 }
 
-bool isEncodable(Object node) {
-  return isNull(node) ||
-      isPrimitiveType() ||
-      isList(node) ||
-      isMap(node) ||
-      hasToJsonMethod(node);
-}
-
 bool isEncodableType<T>() {
   return isPrimitiveType<T>() ||
       T is List<dynamic> ||

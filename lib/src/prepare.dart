@@ -23,7 +23,7 @@ void _checkEncodableType<T>() {
 }
 
 E _toEncodableObject<E>(dynamic value) {
-  if(value == null) {
+  if (value == null) {
     return null;
   }
   if (!hasToJsonMethod(value)) {
@@ -69,7 +69,7 @@ List<T> preparePrimitiveList<T>(List<T> value) {
 }
 
 E prepareObject<N, E>(N value,
-    [ObjectEncoder<N, E> encoder, skipEncoding = false]) {
+    [ObjectEncoder<N, E> encoder, bool skipEncoding = false]) {
   if (encoder != null) {
     _checkEncodableType<E>();
     return encoder(value);
@@ -77,13 +77,15 @@ E prepareObject<N, E>(N value,
   return _toEncodableObject<E>(value);
 }
 
-List<E> prepareObjectList<N, E>(List<N> value, [ObjectEncoder<N, E> encoder]) {
+List<E> prepareObjectList<N, E>(List<N> value,
+    [ObjectEncoder<N, E> encoder, bool skipEncoding = false]) {
   if (value == null) {
     return null;
   }
   if (encoder != null) {
     _checkEncodableType<E>();
-    return value.map((e) => encoder(e)).toList(growable: false);
+    return value.map((n) => encoder(n)).toList(growable: false);
   }
-  return value.map((e) => _toEncodableObject<E>(e)).toList(growable: false);
+  toEncodable(N n) => _toEncodableObject<E>(n);
+  return value.map(toEncodable).toList(growable: false);
 }
