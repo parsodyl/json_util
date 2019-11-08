@@ -4,10 +4,9 @@ dart:
   - stable
 
 dart_task:
-  - dartfmt
+  - dartfmt -n
   - test
   - dartanalyzer
-
 
 cache:
   directories:
