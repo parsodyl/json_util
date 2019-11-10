@@ -1,87 +1,79 @@
-bool isPrimitiveType<T>() {
-  final ts = T.toString();
-  return ts == 'bool' ||
-      ts == 'String' ||
-      ts == 'num' ||
-      ts == 'int' ||
-      ts == 'double' ||
-      ts == 'Null';
+import 'package:json_util/src/errors.dart';
+import 'package:json_util/src/misc.dart';
+
+void _checkPrimitiveType<T>() {
+  if (!isPrimitiveType<T>()) {
+    throw JsonCheckingError("type '$T' is not a JSON primitive type");
+  }
 }
 
-bool isPrimitiveListType<D>() {
-  final ts = D.toString();
-  return ts == 'List<bool>' ||
-      ts == 'List<String>' ||
-      ts == 'List<num>' ||
-      ts == 'List<int>' ||
-      ts == 'List<double>' ||
-      ts == 'List<Null>';
+bool checkMap(dynamic value) {
+  return value is Map<String, dynamic>;
 }
 
-bool isPrimitiveTypeNew<T>() {
-  return T == bool ||
-      T == String ||
-      T == num ||
-      T == int ||
-      T == double ||
-      T == Null;
+bool checkList(dynamic value) {
+  return value is List<dynamic>;
 }
 
-bool isMap(dynamic node) {
-  return node is Map<String, dynamic>;
+bool checkEmptyList(dynamic value) {
+  return checkList(value) && (value as List).isEmpty;
 }
 
-bool isList(dynamic node) {
-  return node is List<dynamic>;
+bool checkEmptyMap(dynamic value) {
+  return checkMap(value) && (value as Map).isEmpty;
 }
 
-bool isPrimitiveValue(dynamic node) {
-  return node is bool || node is String || node is num;
-}
-
-bool isPrimitiveList(dynamic node) {
-  if (!isList(node)) {
+bool checkPrimitiveValue<T>(dynamic value) {
+  _checkPrimitiveType<T>();
+  if (checkNull(value)) {
     return false;
   }
-  for (final e in node) {
-    if (!isPrimitiveValue(e)) {
+  return value is T;
+}
+
+bool checkPrimitiveList<T>(dynamic value, bool includeNulls) {
+  _checkPrimitiveType<T>();
+  if (checkNull(value)) {
+    return false;
+  }
+  if (!checkList(value)) {
+    return false;
+  }
+  if ((value as List).isEmpty) {
+    return false;
+  }
+  for (final e in value) {
+    if (checkNull(e) && includeNulls) {
+      continue;
+    }
+    if (!checkPrimitiveValue<T>(e)) {
       return false;
     }
   }
   return true;
 }
 
-bool isMapList(dynamic node) {
-  if (!isList(node)) {
+bool checkMapList(dynamic value, bool includeNulls) {
+  if (checkNull(value)) {
     return false;
   }
-  for (final e in node) {
-    if (!isMap(e)) {
+  if (!checkList(value)) {
+    return false;
+  }
+  if ((value as List).isEmpty) {
+    return false;
+  }
+  for (final e in value) {
+    if (checkNull(e) && includeNulls) {
+      continue;
+    }
+    if (!checkMap(e)) {
       return false;
     }
   }
   return true;
 }
 
-bool isNull(dynamic node) {
-  return node == null;
-}
-
-bool isT<T>(dynamic node) {
-  return node is T;
-}
-
-bool hasToJsonMethod(dynamic node) {
-  try {
-    node.toJson();
-  } on NoSuchMethodError catch (_) {
-    return false;
-  }
-  return true;
-}
-
-bool isEncodableType<T>() {
-  return isPrimitiveType<T>() ||
-      T is List<dynamic> ||
-      T is Map<String, dynamic>;
+bool checkNull(dynamic value) {
+  return value == null;
 }

@@ -1,6 +1,6 @@
-import 'package:json_util/src/check.dart';
 import 'package:json_util/src/errors.dart';
 import 'package:json_util/src/functions.dart';
+import 'package:json_util/src/misc.dart';
 
 void _checkPrimitiveType<T>() {
   if (!isPrimitiveType<T>()) {
@@ -50,7 +50,7 @@ List<dynamic> prepareList(List<dynamic> value) {
 }
 
 T preparePrimitiveValue<T>(T value) {
-  if (value == null && (T == dynamic || T == Null)) {
+  if (value == null && isNullOrDynamicType<T>()) {
     return null;
   }
   _checkPrimitiveType<T>();
@@ -58,7 +58,7 @@ T preparePrimitiveValue<T>(T value) {
 }
 
 List<T> preparePrimitiveList<T>(List<T> value) {
-  if (value == null && (T == dynamic || T == Null)) {
+  if (value == null && isNullOrDynamicType<T>()) {
     return null;
   }
   if (T == dynamic && value.isEmpty) {
