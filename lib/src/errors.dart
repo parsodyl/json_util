@@ -92,3 +92,17 @@ class JsonPreparationError extends Error {
     return 'JsonPreparationError: cause: $cause';
   }
 }
+
+/// Error thrown during a JSON checking operation.
+class JsonCheckingError extends Error {
+  /// The cause of this error.
+  final dynamic cause;
+
+  /// Default constructor.
+  JsonCheckingError(this.cause);
+
+  @override
+  String toString() {
+    return 'JsonCheckingError: cause: $cause';
+  }
+}
