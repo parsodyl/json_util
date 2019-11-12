@@ -364,7 +364,7 @@ void main() {
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
     });
-    test('standard usage (w/ encoder)', () {
+    test('standard usage (w/ encoder #1)', () {
       // prepare input
       final someData = User(
           id: 1,
@@ -374,6 +374,20 @@ void main() {
       // execute
       final encodable = EncodableValue.fromObject(someData,
           encoder: (User user) => user.username);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+    });
+    test('standard usage (w/ encoder #2)', () {
+      // prepare input
+      final someData = User(
+          id: 1,
+          name: 'Leanne Graham',
+          username: 'Bret',
+          email: 'Sincere@april.biz');
+      // execute
+      final encodable = EncodableValue.fromObject(someData,
+          encoder: (User user) => user.toJson());
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -456,7 +470,7 @@ void main() {
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
     });
-    test('standard usage (w/ encoder)', () {
+    test('standard usage (w/ encoder #1)', () {
       // prepare input
       final someData = [
         User(
@@ -468,6 +482,22 @@ void main() {
       // execute
       final encodable = EncodableValue.fromObjectList(someData,
           encoder: (User user) => user.username);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+    });
+    test('standard usage (w/ encoder #2)', () {
+      // prepare input
+      final someData = [
+        User(
+            id: 1,
+            name: 'Leanne Graham',
+            username: 'Bret',
+            email: 'Sincere@april.biz')
+      ];
+      // execute
+      final encodable = EncodableValue.fromObjectList(someData,
+          encoder: (User user) => user.toJson());
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);

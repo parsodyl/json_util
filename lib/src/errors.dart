@@ -106,3 +106,17 @@ class JsonCheckingError extends Error {
     return 'JsonCheckingError: cause: $cause';
   }
 }
+
+/// Error thrown during a JSON transformation operation.
+class JsonTransformationError extends Error {
+  /// The cause of this error.
+  final dynamic cause;
+
+  /// Default constructor.
+  JsonTransformationError(this.cause);
+
+  @override
+  String toString() {
+    return 'JsonTransformationError: cause: $cause';
+  }
+}

@@ -2,4 +2,4 @@
 typedef ObjectEncoder<N, E> = E Function(N nonEncodableObject);
 
 /// ...
-typedef ObjectDecoder<T> = T Function(Object encodableObject);
+typedef ObjectTransformer<E, T> = T Function(E encodedObject);
