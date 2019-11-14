@@ -1,4 +1,4 @@
-JSON utilities for Dart.
+Type-safe JSON-encoding and JSON-decoding utilities for Dart.
 
 ## Usage
 

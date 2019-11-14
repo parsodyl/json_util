@@ -1,5 +1,5 @@
 name: json_util
-description: JSON utilities for Dart.
+description: Type-safe JSON-encoding and JSON-decoding utilities for Dart.
 version: 0.0.1
 homepage: https://github.com/parsodyl/json_util
 author: Daniele Paradiso <parsodyl@gmail.com>

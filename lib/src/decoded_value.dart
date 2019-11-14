@@ -6,6 +6,7 @@ import 'package:json_util/src/extract.dart';
 import 'package:json_util/src/functions.dart';
 import 'package:json_util/src/transform.dart';
 
+/// The direct result of some JSON decoding.
 class DecodedValue {
   /// Private constructor for [DecodedValue].
   const DecodedValue._(dynamic value) : value = value;
