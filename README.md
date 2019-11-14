@@ -1,7 +1,4 @@
-A library for Dart developers.
-
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+JSON utilities for Dart.
 
 ## Usage
 
@@ -11,7 +8,12 @@ A simple usage example:
 import 'package:json_util/json_util.dart';
 
 main() {
-  var awesome = new Awesome();
+  const myJson = '{"hello":"world"}';
+  final decodedValue = DecodedValue.from(myJson);
+  final map = decodedValue.asMap();
+  final encodableValue = EncodableValue.map(map);
+  final yourJson = encodableValue.encode();
+  print(myJson == yourJson); // true
 }
 ```
 
@@ -19,4 +21,4 @@ main() {
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/parsodyl/json_util/issues
