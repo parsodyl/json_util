@@ -1,6 +1,7 @@
 /// JSON utilities for Dart.
 library json_util;
 
+export 'src/decoded_value.dart';
 export 'src/encodable_value.dart';
 export 'src/errors.dart';
 export 'src/functions.dart';
