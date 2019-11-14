@@ -50,7 +50,7 @@ class EncodableValue {
   /// Throws a [JsonPreparationError] if:
   /// * [encoder] is provided, but [E] could not represent an encodable object.
   /// * [value] does not have a callable `.toJson()` method.
-  /// * [E] does not match the `.toJson()` result type
+  /// * [E] does not match the `.toJson()` result type.
   static EncodableValue fromObject<N, E>(N value,
       {ObjectEncoder<N, E> encoder}) {
     return EncodableValue._(prepareObject<N, E>(value, encoder));
@@ -67,13 +67,13 @@ class EncodableValue {
   /// Throws a [JsonPreparationError] if:
   /// * [encoder] is provided, but [E] could not represent an encodable object.
   /// * [value] does not have a callable `.toJson()` method.
-  /// * [E] does not match the `.toJson()` result type
+  /// * [E] does not match the `.toJson()` result type.
   static EncodableValue fromObjectList<N, E>(List<N> list,
       {ObjectEncoder<N, E> encoder}) {
     return EncodableValue._(prepareObjectList<N, E>(list, encoder));
   }
 
-  /// Convert this [EncodableValue] to a JSON string.
+  /// Converts this [EncodableValue] to a JSON string.
   ///
   /// Throws a [JsonEncodingError] if any error occurs during the JSON encoding
   /// process.
