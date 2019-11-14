@@ -7,7 +7,7 @@ A simple usage example:
 ```dart
 import 'package:json_util/json_util.dart';
 
-main() {
+void main() {
   const myJson = '{"hello":"world"}';
   final decodedValue = DecodedValue.from(myJson);
   final map = decodedValue.asMap();
