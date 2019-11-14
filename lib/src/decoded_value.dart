@@ -8,10 +8,10 @@ import 'package:json_util/src/transform.dart';
 
 class DecodedValue {
   /// Private constructor for [DecodedValue].
-  const DecodedValue._(dynamic value) : _value = value;
+  const DecodedValue._(dynamic value) : value = value;
 
   /// The actual decoded value.
-  final dynamic _value;
+  final dynamic value;
 
   /// Constructs a [DecodedValue] converting the given JSON-string source.
   ///
@@ -22,10 +22,10 @@ class DecodedValue {
   // IS
 
   /// Returns `true` if this decoded value represents a map.
-  bool get isMap => checkMap(_value);
+  bool get isMap => checkMap(value);
 
   /// Returns `true` if this decoded value represents a list.
-  bool get isList => checkList(_value);
+  bool get isList => checkList(value);
 
   /// Returns `true` if this decoded value represents a primitive value
   /// (specified by [T]).
@@ -35,7 +35,7 @@ class DecodedValue {
   ///
   /// Throws a [JsonCheckingError] if [T] could not represent a
   /// primitive type.
-  bool isPrimitiveValue<T>() => checkPrimitiveValue<T>(_value);
+  bool isPrimitiveValue<T>() => checkPrimitiveValue<T>(value);
 
   /// Returns `true` if this decoded value represents a list of
   /// primitive values (specified by [T]).
@@ -49,23 +49,23 @@ class DecodedValue {
   /// Throws a [JsonCheckingError] if [T] could not represent a
   /// primitive type.
   bool isPrimitiveList<T>({bool includeNullValues = false}) =>
-      checkPrimitiveList<T>(_value, includeNullValues);
+      checkPrimitiveList<T>(value, includeNullValues);
 
   /// Returns `true` if this decoded value represents a list of maps.
   ///
   /// If [includeNullValues] is set to `true`, null values are also taken
   /// into account.
   bool isMapList({bool includeNullValues = false}) =>
-      checkMapList(_value, includeNullValues);
+      checkMapList(value, includeNullValues);
 
   /// Returns `true` if this decoded value represents a null value.
-  bool get isNull => checkNull(_value);
+  bool get isNull => checkNull(value);
 
   /// Returns `true` if this decoded value represents an empty list.
-  bool get isEmptyList => checkEmptyList(_value);
+  bool get isEmptyList => checkEmptyList(value);
 
   /// Returns `true` if this decoded value represents an empty map.
-  bool get isEmptyMap => checkEmptyMap(_value);
+  bool get isEmptyMap => checkEmptyMap(value);
 
   // CAST
 
@@ -73,13 +73,13 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// map.
-  Map<String, dynamic> asMap() => castAsMap(_value);
+  Map<String, dynamic> asMap() => castAsMap(value);
 
   /// Returns this decoded value as a [List]<[dynamic]>.
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list.
-  List<dynamic> asList() => castAsList(_value);
+  List<dynamic> asList() => castAsList(value);
 
   /// Returns this decoded value as a primitive value (specified by [T]).
   ///
@@ -88,7 +88,7 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// primitive value or if [T] could not represents a primitive type.
-  T asPrimitiveValue<T>() => castAsPrimitiveValue<T>(_value);
+  T asPrimitiveValue<T>() => castAsPrimitiveValue<T>(value);
 
   /// Returns this decoded value as a list of primitive values (specified by
   /// [T]).
@@ -98,7 +98,7 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// primitive value or if [T] could not represents a primitive type.
-  List<T> asPrimitiveList<T>() => castAsPrimitiveList<T>(_value);
+  List<T> asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
 
   /// Returns this decoded value as a dart object (specified by [T]), built
   /// using [transformer]).
@@ -108,7 +108,7 @@ class DecodedValue {
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
   T asObject<E, T>(ObjectTransformer<E, T> transformer) =>
-      transformObject<E, T>(_value, transformer);
+      transformObject<E, T>(value, transformer);
 
   /// Returns this decoded value as a list of dart objects (specified by [T]),
   /// built using [transformer]).
@@ -118,14 +118,14 @@ class DecodedValue {
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
   List<T> asObjectList<E, T>(ObjectTransformer<E, T> transformer) =>
-      transformObjectList<E, T>(_value, transformer);
+      transformObjectList<E, T>(value, transformer);
 
   // EXTRACT
 
   /// Returns a new instance of [DecodedValue], which represents a subfield of
   /// this decoded value.
   DecodedValue extractField(List<Object> selectorList) {
-    final fieldNode = extract(selectorList, _value);
+    final fieldNode = extract(selectorList, value);
     return DecodedValue._(fieldNode);
   }
 
@@ -134,8 +134,8 @@ class DecodedValue {
       identical(this, other) ||
       other is DecodedValue &&
           runtimeType == other.runtimeType &&
-          _value == other._value;
+          value == other.value;
 
   @override
-  int get hashCode => _value.hashCode;
+  int get hashCode => value.hashCode;
 }
