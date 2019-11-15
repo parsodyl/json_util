@@ -19,8 +19,8 @@ void main() {
 
 ## Avalaible components:
 
-* [EncodableValue][https://pub.dev/documentation/json_util/latest/json_util/EncodableValue-class.html]
-* [DecodedValue][https://pub.dev/documentation/json_util/latest/json_util/DecodedValue-class.html]
+* [EncodableValue](<https://pub.dev/documentation/json_util/latest/json_util/EncodableValue-class.html>)
+* [DecodedValue](<https://pub.dev/documentation/json_util/latest/json_util/DecodedValue-class.html>)
 
 ## Features and bugs
 
