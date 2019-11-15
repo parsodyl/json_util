@@ -17,7 +17,7 @@ void main() {
 }
 ```
 
-## Avalaible components:
+## Available components:
 
 * [EncodableValue](<https://pub.dev/documentation/json_util/latest/json_util/EncodableValue-class.html>)
 * [DecodedValue](<https://pub.dev/documentation/json_util/latest/json_util/DecodedValue-class.html>)
