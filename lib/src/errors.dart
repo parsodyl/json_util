@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
 
+/// Signature for a generic error thrown by the json_util package.
+abstract class JsonUtilError {}
+
 /// Exception thrown when a string does not have the
 /// expected JSON format and cannot be parsed.
-class JsonFormatException extends FormatException {
+class JsonFormatException extends FormatException implements JsonUtilError {
   /// Default constructor.
   JsonFormatException([String message = "", String source, int offset])
       : super(message, source, offset);
@@ -19,7 +22,7 @@ class JsonFormatException extends FormatException {
 }
 
 /// Error thrown during a JSON encoding operation.
-class JsonEncodingError extends Error {
+class JsonEncodingError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -38,7 +41,7 @@ class JsonEncodingError extends Error {
 }
 
 /// Error thrown during a JSON decoding operation.
-class JsonDecodingError extends Error {
+class JsonDecodingError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -52,7 +55,7 @@ class JsonDecodingError extends Error {
 }
 
 /// Error thrown during a JSON casting operation.
-class JsonCastingError extends CastError {
+class JsonCastingError extends CastError implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -66,7 +69,7 @@ class JsonCastingError extends CastError {
 }
 
 /// Error thrown during a JSON extraction operation.
-class JsonExtractionError extends Error {
+class JsonExtractionError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -80,7 +83,7 @@ class JsonExtractionError extends Error {
 }
 
 /// Error thrown during a JSON preparation operation.
-class JsonPreparationError extends Error {
+class JsonPreparationError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -94,7 +97,7 @@ class JsonPreparationError extends Error {
 }
 
 /// Error thrown during a JSON checking operation.
-class JsonCheckingError extends Error {
+class JsonCheckingError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
@@ -108,7 +111,7 @@ class JsonCheckingError extends Error {
 }
 
 /// Error thrown during a JSON transformation operation.
-class JsonTransformationError extends Error {
+class JsonTransformationError extends Error implements JsonUtilError {
   /// The cause of this error.
   final dynamic cause;
 
