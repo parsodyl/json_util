@@ -20,7 +20,7 @@ T transformObject<E, T>(dynamic value, ObjectTransformer<E, T> transformer) {
     throw JsonTransformationError("transforming function is required");
   }
   _checkEncodableType<E>();
-  final decoded = _castAs(value);
+  final decoded = _castAs<E>(value);
   return transformer(decoded);
 }
 

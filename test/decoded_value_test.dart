@@ -735,6 +735,15 @@ void main() {
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
+    test('fail (wrong type)', () {
+      // prepare input
+      final source = '42.0';
+      final decoded = DecodedValue.from(source);
+      // execute
+      testCall() => decoded.asObject<int, String>((value) => '$value');
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
+    });
     test('check encodable type #1 (wrong type - Set<String>)', () {
       // prepare input
       final source = '["h", "e", "l", "l", "o"]';
@@ -831,6 +840,15 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       testCall() => decoded.asObjectList((String value) => value);
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
+    });
+    test('fail (wrong type)', () {
+      // prepare input
+      final source = '[42.0]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      testCall() => decoded.asObjectList<int, String>((value) => '$value');
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
