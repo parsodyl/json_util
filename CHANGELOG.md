@@ -1,3 +1,7 @@
+## 0.3.0
+
+- optional parameters added to asObject() and asObjectList()
+
 ## 0.2.0
 
 - JsonUtilError exposed.
