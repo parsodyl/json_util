@@ -108,8 +108,9 @@ class DecodedValue {
   /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
-  T asObject<E, T>(ObjectTransformer<E, T> transformer) =>
-      transformObject<E, T>(value, transformer);
+  T asObject<E, T>(ObjectTransformer<E, T> transformer,
+          {bool skipIfNull = false}) =>
+      transformObject<E, T>(value, transformer, skipIfNull);
 
   /// Returns this decoded value as a list of dart objects (specified by [T]),
   /// built using [transformer]).
@@ -118,8 +119,9 @@ class DecodedValue {
   /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
-  List<T> asObjectList<E, T>(ObjectTransformer<E, T> transformer) =>
-      transformObjectList<E, T>(value, transformer);
+  List<T> asObjectList<E, T>(ObjectTransformer<E, T> transformer,
+          {bool skipNullValues = false}) =>
+      transformObjectList<E, T>(value, transformer, skipNullValues);
 
   // EXTRACT
 

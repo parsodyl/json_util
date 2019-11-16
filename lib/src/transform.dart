@@ -15,17 +15,21 @@ T _castAs<T>(dynamic value) {
   return value as T;
 }
 
-T transformObject<E, T>(dynamic value, ObjectTransformer<E, T> transformer) {
+T transformObject<E, T>(
+    dynamic value, ObjectTransformer<E, T> transformer, bool skipNull) {
   if (transformer == null) {
     throw JsonTransformationError("transforming function is required");
   }
   _checkEncodableType<E>();
   final decoded = _castAs<E>(value);
+  if (decoded == null && skipNull) {
+    return null;
+  }
   return transformer(decoded);
 }
 
 List<T> transformObjectList<E, T>(
-    dynamic value, ObjectTransformer<E, T> transformer) {
+    dynamic value, ObjectTransformer<E, T> transformer, bool skipNull) {
   if (transformer == null) {
     throw JsonTransformationError("transforming function is required");
   }
@@ -34,6 +38,13 @@ List<T> transformObjectList<E, T>(
     return null;
   }
   _checkEncodableType<E>();
-  transformElement(dynamic e) => transformer(_castAs<E>(e));
+  T transformElement(dynamic e) {
+    final decoded = _castAs<E>(e);
+    if (decoded == null && skipNull) {
+      return null;
+    }
+    return transformer(decoded);
+  }
+
   return list.map(transformElement).toList(growable: false);
 }

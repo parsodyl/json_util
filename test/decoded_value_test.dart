@@ -708,12 +708,22 @@ void main() {
     });
   });
   group('cast as object >>', () {
-    test('success (null)', () {
+    test('success (null - not skipped)', () {
       // prepare input
       final source = 'null';
       final decoded = DecodedValue.from(source);
       // execute
       final castResult = decoded.asObject((String value) => value);
+      // check
+      expect(castResult, isNull);
+    });
+    test('success (null - skipped)', () {
+      // prepare input
+      final source = 'null';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObject((List value) => value[0] as String,
+          skipIfNull: true);
       // check
       expect(castResult, isNull);
     });
@@ -815,6 +825,28 @@ void main() {
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String>>());
       expect(castResult, isEmpty);
+    });
+    test('success (null filled - not skipped)', () {
+      // prepare input
+      final source = '[null, null, "X"]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObjectList((String value) => value);
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<String>>());
+    });
+    test('success (null filled - skipped)', () {
+      // prepare input
+      final source = '[null, null, ["X"]]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObjectList(
+          (List value) => value[0] as String,
+          skipNullValues: true);
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<String>>());
     });
     test('fail (transformer is null)', () {
       // prepare input
