@@ -70,13 +70,13 @@ class DecodedValue {
 
   // CAST
 
-  /// Returns this decoded value as a [Map]<[String], [dynamic]>.
+  /// Returns this decoded value as a [Map<String, dynamic>].
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// map.
   Map<String, dynamic> asMap() => castAsMap(value);
 
-  /// Returns this decoded value as a [List]<[dynamic]>.
+  /// Returns this decoded value as a [List<dynamic>].
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list.
@@ -104,6 +104,9 @@ class DecodedValue {
   /// Returns this decoded value as a dart object (specified by [T]), built
   /// using [transformer]).
   ///
+  /// If [skipIfNull] is set to `true`, transformation is no applied when this
+  /// decoded value is null.
+  ///
   /// Throws a [JsonTransformationError] if:
   /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
@@ -114,6 +117,9 @@ class DecodedValue {
 
   /// Returns this decoded value as a list of dart objects (specified by [T]),
   /// built using [transformer]).
+  ///
+  /// If [skipNullValues] is set to `true`, transformation is no applied when
+  /// a null value is encountered.
   ///
   /// Throws a [JsonTransformationError] if:
   /// * [transformer] is null.
