@@ -3,7 +3,7 @@ import 'package:json_util/src/errors.dart';
 void _checkForBadSelectors(Iterable<Object> selectorList) {
   selectorList.forEach((s) {
     if (s == null) {
-      throw JsonExtractionError(" null selector found");
+      throw JsonExtractionError("null selector found");
     }
     if (s is! int && s is! String) {
       throw JsonExtractionError("selector '$s' is neither an int nor a String");
@@ -25,14 +25,16 @@ dynamic _extractNode(Object selector, dynamic parentNode) {
       return list[selector];
     } on RangeError {
       final s = selector;
-      throw JsonExtractionError("selector '$s' not found in the current list");
+      throw JsonExtractionError(
+          "selector '$s' not found in the current list ($list)");
     }
   }
   if (selector is String) {
     final map = _castAs<Map<String, dynamic>>(parentNode);
     if (!map.containsKey(selector)) {
       final s = selector;
-      throw JsonExtractionError("selector '$s' not found in the current map");
+      throw JsonExtractionError(
+          "selector '$s' not found in the current map ($map)");
     }
     return map[selector];
   }

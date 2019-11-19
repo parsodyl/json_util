@@ -1,7 +1,7 @@
 import 'package:json_util/src/convert.dart';
+import 'package:json_util/src/encoding/prepare.dart';
 import 'package:json_util/src/errors.dart';
 import 'package:json_util/src/functions.dart';
-import 'package:json_util/src/prepare.dart';
 
 /// A candidate for direct JSON encoding.
 class EncodableValue {

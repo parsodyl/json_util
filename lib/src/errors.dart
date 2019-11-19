@@ -36,7 +36,7 @@ class JsonEncodingError extends Error implements JsonUtilError {
 
   @override
   String toString() {
-    return 'JsonEncodingError: cause: $cause';
+    return 'JsonEncodingError: $cause';
   }
 }
 
@@ -54,37 +54,14 @@ class JsonDecodingError extends Error implements JsonUtilError {
   }
 }
 
-/// Error thrown during a JSON casting operation.
-class JsonCastingError extends CastError implements JsonUtilError {
+abstract class EncodableValueError implements JsonUtilError {
   /// The cause of this error.
-  final dynamic cause;
-
-  /// Default constructor.
-  JsonCastingError(this.cause);
-
-  @override
-  String toString() {
-    return 'JsonCastingError: cause: $cause';
-  }
-}
-
-/// Error thrown during a JSON extraction operation.
-class JsonExtractionError extends Error implements JsonUtilError {
-  /// The cause of this error.
-  final dynamic cause;
-
-  /// Default constructor.
-  JsonExtractionError(this.cause);
-
-  @override
-  String toString() {
-    return 'JsonExtractionError: cause: $cause';
-  }
+  dynamic get cause;
 }
 
 /// Error thrown during a JSON preparation operation.
-class JsonPreparationError extends Error implements JsonUtilError {
-  /// The cause of this error.
+class JsonPreparationError extends Error implements EncodableValueError {
+  @override
   final dynamic cause;
 
   /// Default constructor.
@@ -92,13 +69,18 @@ class JsonPreparationError extends Error implements JsonUtilError {
 
   @override
   String toString() {
-    return 'JsonPreparationError: cause: $cause';
+    return 'JsonPreparationError: $cause';
   }
 }
 
-/// Error thrown during a JSON checking operation.
-class JsonCheckingError extends Error implements JsonUtilError {
+abstract class DecodedValueError implements JsonUtilError {
   /// The cause of this error.
+  dynamic get cause;
+}
+
+/// Error thrown during a JSON checking operation.
+class JsonCheckingError extends Error implements DecodedValueError {
+  @override
   final dynamic cause;
 
   /// Default constructor.
@@ -106,13 +88,27 @@ class JsonCheckingError extends Error implements JsonUtilError {
 
   @override
   String toString() {
-    return 'JsonCheckingError: cause: $cause';
+    return 'JsonCheckingError: $cause';
+  }
+}
+
+/// Error thrown during a JSON casting operation.
+class JsonCastingError extends CastError implements DecodedValueError {
+  @override
+  final dynamic cause;
+
+  /// Default constructor.
+  JsonCastingError(this.cause);
+
+  @override
+  String toString() {
+    return 'JsonCastingError: $cause';
   }
 }
 
 /// Error thrown during a JSON transformation operation.
-class JsonTransformationError extends Error implements JsonUtilError {
-  /// The cause of this error.
+class JsonTransformationError extends Error implements DecodedValueError {
+  @override
   final dynamic cause;
 
   /// Default constructor.
@@ -120,6 +116,20 @@ class JsonTransformationError extends Error implements JsonUtilError {
 
   @override
   String toString() {
-    return 'JsonTransformationError: cause: $cause';
+    return 'JsonTransformationError: $cause';
+  }
+}
+
+/// Error thrown during a JSON extraction operation.
+class JsonExtractionError extends Error implements DecodedValueError {
+  @override
+  final dynamic cause;
+
+  /// Default constructor.
+  JsonExtractionError(this.cause);
+
+  @override
+  String toString() {
+    return 'JsonExtractionError: $cause';
   }
 }

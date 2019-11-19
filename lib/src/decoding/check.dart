@@ -1,5 +1,5 @@
 import 'package:json_util/src/errors.dart';
-import 'package:json_util/src/misc.dart';
+import 'package:json_util/src/misc/misc.dart';
 
 void _checkPrimitiveType<T>() {
   if (!isPrimitiveType<T>()) {

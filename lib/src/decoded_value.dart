@@ -1,10 +1,10 @@
-import 'package:json_util/src/cast.dart';
-import 'package:json_util/src/check.dart';
 import 'package:json_util/src/convert.dart';
+import 'package:json_util/src/decoding/cast.dart';
+import 'package:json_util/src/decoding/check.dart';
+import 'package:json_util/src/decoding/extract.dart';
+import 'package:json_util/src/decoding/transform.dart';
 import 'package:json_util/src/errors.dart';
-import 'package:json_util/src/extract.dart';
 import 'package:json_util/src/functions.dart';
-import 'package:json_util/src/transform.dart';
 
 /// The direct result of some JSON decoding.
 class DecodedValue {
@@ -32,7 +32,7 @@ class DecodedValue {
   /// (specified by [T]).
   ///
   /// Primitive values are of the types [String], [num], [bool] or [Null].
-  /// As subtypes of [num], [int] or [double] will be also accepted.
+  /// As they are subtypes of [num], [int] or [double] will be also accepted.
   ///
   /// Throws a [JsonCheckingError] if [T] could not represent a
   /// primitive type.
@@ -42,7 +42,7 @@ class DecodedValue {
   /// primitive values (specified by [T]).
   ///
   /// Primitive values are of the types [String], [num], [bool] or [Null].
-  /// As subtypes of [num], [int] or [double] will be also accepted.
+  /// As they are subtypes of [num], [int] or [double] will be also accepted.
   ///
   /// If [includeNullValues] is set to `true`, null values are also taken
   /// into account.
