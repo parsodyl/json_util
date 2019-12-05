@@ -98,7 +98,7 @@ class DecodedValue {
   /// As subtypes of [num], [int] or [double] will be also accepted.
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
-  /// primitive value or if [T] could not represents a primitive type.
+  /// list of primitive values or if [T] could not represents a primitive type.
   List<T> asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
 
   /// Returns this decoded value as a dart object (specified by [T]), built
