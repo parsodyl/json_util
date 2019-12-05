@@ -1,3 +1,7 @@
+## 0.4.0
+
+- DecodedValueError and EncodableValueError exposed.
+
 ## 0.3.0
 
 - optional parameters added to asObject() and asObjectList()
