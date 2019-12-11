@@ -13,3 +13,7 @@ doc/api/
 # Editors
 .idea/
 *.iml
+
+# Coverage
+coverage/
+test/.test_coverage.dart
