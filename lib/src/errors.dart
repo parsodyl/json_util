@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:core';
 
-/// Signature for a generic error thrown by the json_util package.
-abstract class JsonUtilError {}
-
 /// Exception thrown when a string does not have the
 /// expected JSON format and cannot be parsed.
-class JsonFormatException extends FormatException implements JsonUtilError {
+class JsonFormatException extends FormatException {
   /// Default constructor.
   JsonFormatException([String message = "", String source, int offset])
       : super(message, source, offset);
@@ -22,7 +19,7 @@ class JsonFormatException extends FormatException implements JsonUtilError {
 }
 
 /// Error thrown during a JSON encoding operation.
-class JsonEncodingError extends Error implements JsonUtilError {
+class JsonEncodingError extends Error {
   /// The cause of this error.
   final dynamic cause;
 
@@ -41,7 +38,7 @@ class JsonEncodingError extends Error implements JsonUtilError {
 }
 
 /// Error thrown during a JSON decoding operation.
-class JsonDecodingError extends Error implements JsonUtilError {
+class JsonDecodingError extends Error {
   /// The cause of this error.
   final dynamic cause;
 
@@ -54,7 +51,8 @@ class JsonDecodingError extends Error implements JsonUtilError {
   }
 }
 
-abstract class EncodableValueError implements JsonUtilError {
+/// Signature for a generic error thrown by EncodableValue.
+abstract class EncodableValueError extends Error {
   /// The cause of this error.
   dynamic get cause;
 }
@@ -73,7 +71,8 @@ class JsonPreparationError extends Error implements EncodableValueError {
   }
 }
 
-abstract class DecodedValueError implements JsonUtilError {
+/// Signature for a generic error thrown by DecodedValue.
+abstract class DecodedValueError extends Error {
   /// The cause of this error.
   dynamic get cause;
 }
