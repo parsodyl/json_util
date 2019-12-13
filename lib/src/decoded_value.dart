@@ -147,4 +147,9 @@ class DecodedValue {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() {
+    return 'DecodedValue: $value';
+  }
 }

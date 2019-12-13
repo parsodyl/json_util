@@ -41,6 +41,15 @@ void main() {
       // check
       expect(isResult, isFalse);
     });
+    test('primitive value (not primitive)', () {
+      // prepare input
+      final source = '"hello!"';
+      final decoded = DecodedValue.from(source);
+      // execute
+      testCall() => decoded.isPrimitiveValue<Set>();
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonCheckingError>()));
+    });
     test('string (true)', () {
       // prepare input
       final source = '"hello!"';
@@ -990,6 +999,24 @@ void main() {
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
     });
+    test('fail (selector list contains a null value)', () {
+      // prepare input
+      final source = '[{"pi": 3.14}]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      testCall() => decoded.extractField([null]);
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
+    });
+    test('fail (selector list contains a bad-type value)', () {
+      // prepare input
+      final source = '[{"pi": 3.14}]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      testCall() => decoded.extractField([0.5]);
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
+    });
     test('fail (wrong selector - bad list index)', () {
       // prepare input
       final source = '[{"pi": 3.14}]';
@@ -1016,6 +1043,31 @@ void main() {
       testCall() => decoded.extractField([0, 'pi', 'value']);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
+    });
+  });
+  group('std methods >>', () {
+    test('toString() behaviour', () {
+      // prepare input
+      final source = '"hello!"';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final toString = decoded.toString();
+      // check
+      expect(toString, equals('DecodedValue: hello!'));
+    });
+    test('DecodedValue used as map key', () {
+      // prepare input
+      final prettySource = '{"one": 1, "two": 2}';
+      final condensedSource = '{"one":1,"two":2}';
+      final decoded1 = DecodedValue.from(prettySource);
+      final decoded2 = DecodedValue.from(condensedSource);
+      // execute
+      final testMap = <DecodedValue, int>{};
+      testMap[decoded1] = decoded1.asMap()['one'];
+      testMap[decoded2] = decoded1.asMap()['two'];
+      // check
+      expect(testMap[decoded1], equals(1));
+      expect(testMap[decoded2], equals(2));
     });
   });
 }
