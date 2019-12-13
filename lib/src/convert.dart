@@ -6,6 +6,9 @@ typedef Reviver = Object Function(Object key, Object value);
 typedef ToEncodable = Object Function(Object nonEncodable);
 
 dynamic convertDecode(String source, {Reviver reviver}) {
+  if (source == null) {
+    throw ArgumentError.notNull('source');
+  }
   try {
     return json.decode(source, reviver: reviver);
   } on FormatException catch (e) {

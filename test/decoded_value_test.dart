@@ -4,6 +4,33 @@ import 'package:test/test.dart';
 import 'user.dart';
 
 void main() {
+  group('constructors >>', () {
+    test('success (std)', () {
+      // prepare input
+      final source = '"hello!"';
+      // execute
+      final decoded = DecodedValue.from(source);
+      // check
+      expect(decoded, isNotNull);
+      expect(decoded, isA<DecodedValue>());
+    });
+    test('fail (null)', () {
+      // prepare input
+      final source = null;
+      // execute
+      testCall() => DecodedValue.from(source);
+      // check
+      expect(testCall, throwsA(TypeMatcher<ArgumentError>()));
+    });
+    test('fail (bad format)', () {
+      // prepare input
+      final source = '{"pi: 3.14}';
+      // execute
+      testCall() => DecodedValue.from(source);
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonFormatException>()));
+    });
+  });
   group('is predicates >>', () {
     test('map (true)', () {
       // prepare input
