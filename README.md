@@ -1,3 +1,5 @@
+# json_util ![Build](https://api.travis-ci.com/parsodyl/json_util.svg?branch=master) ![Coverage](https://raw.githubusercontent.com/parsodyl/json_util/master/coverage_badge.svg?sanitize=true)
+
 Type-safe JSON-encoding and JSON-decoding utilities for Dart.
 
 ## Usage
