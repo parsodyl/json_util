@@ -1,3 +1,10 @@
+## 0.5.0
+
+- JsonUtilError removed.
+- DecodedValue: toString() added.
+- Convert methods exposed.
+
+
 ## 0.4.0
 
 - DecodedValueError and EncodableValueError exposed.
