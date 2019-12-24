@@ -11,7 +11,7 @@ void _checkPrimitiveType<T>() {
 void _checkForNullKeys(Iterable<String> keyList) {
   keyList.forEach((key) {
     if (key == null) {
-      throw JsonPreparationError("null key found");
+      throw JsonPreparationError('null key found');
     }
   });
 }
@@ -86,6 +86,6 @@ List<E> prepareObjectList<N, E>(List<N> value,
     _checkEncodableType<E>();
     return value.map((n) => encoder(n)).toList(growable: false);
   }
-  toEncodable(N n) => _toEncodableObject<E>(n);
+  E toEncodable(N n) => _toEncodableObject<E>(n);
   return value.map(toEncodable).toList(growable: false);
 }

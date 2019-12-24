@@ -33,6 +33,6 @@ List<T> castAsPrimitiveList<T>(dynamic value) {
   if (list == null) {
     return null;
   }
-  castAsT(dynamic e) => _castAs<T>(e);
+  T castAsT(dynamic e) => _castAs<T>(e);
   return list.map(castAsT).toList(growable: false);
 }

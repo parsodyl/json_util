@@ -18,7 +18,7 @@ T _castAs<T>(dynamic value) {
 T transformObject<E, T>(
     dynamic value, ObjectTransformer<E, T> transformer, bool skipNull) {
   if (transformer == null) {
-    throw JsonTransformationError("transforming function is required");
+    throw JsonTransformationError('transforming function is required');
   }
   _checkEncodableType<E>();
   final decoded = _castAs<E>(value);
@@ -31,7 +31,7 @@ T transformObject<E, T>(
 List<T> transformObjectList<E, T>(
     dynamic value, ObjectTransformer<E, T> transformer, bool skipNull) {
   if (transformer == null) {
-    throw JsonTransformationError("transforming function is required");
+    throw JsonTransformationError('transforming function is required');
   }
   final list = _castAs<List<dynamic>>(value);
   if (list == null) {
