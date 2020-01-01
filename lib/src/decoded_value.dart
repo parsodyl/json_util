@@ -133,6 +133,12 @@ class DecodedValue {
 
   /// Returns a new instance of [DecodedValue], which represents a subfield of
   /// this decoded value.
+  ///
+  /// [selectorList] must only contain integers or strings. They represents
+  /// list indexes or map keys, needed to reach the target subfield.
+  ///
+  /// Throws a [JsonExtractionError] if [selectorList] is null or contains bad
+  /// selectors (wrong types or keys and/or indexes that are not present).
   DecodedValue extractField(List<Object> selectorList) {
     final fieldNode = extract(selectorList, value);
     return DecodedValue._(fieldNode);

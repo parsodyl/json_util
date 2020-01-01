@@ -66,7 +66,7 @@ class EncodableValue {
   ///
   /// Throws a [JsonPreparationError] if:
   /// * [encoder] is provided, but [E] could not represent an encodable object.
-  /// * [value] does not have a callable `.toJson()` method.
+  /// * [list] elements do not have a callable `.toJson()` method.
   /// * [E] does not match the `.toJson()` result type.
   static EncodableValue fromObjectList<N, E>(List<N> list,
       {ObjectEncoder<N, E> encoder}) {

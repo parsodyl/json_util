@@ -11,14 +11,11 @@ class User {
     this.email,
   });
 
-  static User fromJson(Map<String, dynamic> json) {
-    return User(
+  static User fromJson(Map<String, dynamic> json) => User(
       id: json['id'],
       name: json['name'],
       username: json['username'],
-      email: json['email'],
-    );
-  }
+      email: json['email']);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -26,4 +23,9 @@ class User {
         'username': username,
         'email': email,
       };
+
+  @override
+  String toString() {
+    return 'User{id: $id, name: $name, username: $username, email: $email}';
+  }
 }
