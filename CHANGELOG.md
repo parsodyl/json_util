@@ -1,3 +1,7 @@
+## 0.5.1
+
+- Documentation enhancement.
+
 ## 0.5.0
 
 - JsonUtilError removed.
