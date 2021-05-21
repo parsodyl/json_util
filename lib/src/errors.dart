@@ -92,7 +92,7 @@ class JsonCheckingError extends Error implements DecodedValueError {
 }
 
 /// Error thrown during a JSON casting operation.
-class JsonCastingError extends CastError implements DecodedValueError {
+class JsonCastingError extends TypeError implements DecodedValueError {
   @override
   final dynamic cause;
 
