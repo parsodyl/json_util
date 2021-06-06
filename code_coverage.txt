@@ -1,0 +1,6 @@
+# run test_coverage
+pub run test_coverage
+# generate report
+genhtml -o coverage coverage/lcov.info
+# open the report
+open coverage/index.html
