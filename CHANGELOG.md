@@ -1,3 +1,7 @@
+## 0.6.0
+
+- JsonCastingError now extends TypeError instead of CastError (deprecated).
+
 ## 0.5.1
 
 - Documentation enhancement.
