@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:json_util/src/errors.dart';
 
 /// Used to "revive" an object previously encoded into some JSON data.
-typedef Reviver = Object Function(Object key, Object value);
+typedef Reviver = Object? Function(Object? key, Object? value);
 
 /// Used to encode an object not directly encodable into some JSON data.
-typedef ToEncodable = Object Function(Object nonEncodable);
+typedef ToEncodable = Object? Function(Object? nonEncodable);
 
 /// Parses the string and returns the resulting Json object.
 ///
@@ -20,10 +20,7 @@ typedef ToEncodable = Object Function(Object nonEncodable);
 /// Throws an [ArgumentError] if [source] is null.
 ///
 /// Throws a [JsonFormatException] is [source] does not represent any JSON data.
-dynamic convertDecode(String source, {Reviver reviver}) {
-  if (source == null) {
-    throw ArgumentError.notNull('source');
-  }
+dynamic convertDecode(String source, {Reviver? reviver}) {
   try {
     return json.decode(source, reviver: reviver);
   } on FormatException catch (e) {
@@ -42,7 +39,7 @@ dynamic convertDecode(String source, {Reviver reviver}) {
 /// result of calling `.toJson()` on the unencodable object.
 ///
 /// Throws a JsonEncodingError if [value] results impossible to encode.
-String convertEncode(Object value, {ToEncodable toEncodable}) {
+String convertEncode(Object? value, {ToEncodable? toEncodable}) {
   try {
     return json.encode(value, toEncodable: toEncodable);
   } on JsonUnsupportedObjectError catch (e) {

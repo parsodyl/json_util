@@ -21,7 +21,7 @@ void main() {
       // execute
       final decoded = convertDecode(source, reviver: (key, value) {
         if (key == 'user') {
-          return User.fromJson(value);
+          return User.fromJson(value as Map<String, dynamic>);
         }
         return value;
       });
@@ -30,19 +30,11 @@ void main() {
       expect(decoded, isA<Map>());
       expect(decoded['user'], isA<User>());
     });
-    test('fail (source is null)', () {
-      // prepare input
-      final source = null;
-      // execute
-      testCall() => convertDecode(source);
-      // check
-      expect(testCall, throwsA(TypeMatcher<ArgumentError>()));
-    });
     test('fail (source is bad)', () {
       // prepare input
       final source = '[42';
       // execute
-      testCall() => convertDecode(source);
+      dynamic testCall() => convertDecode(source);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonFormatException>()));
     });
@@ -79,9 +71,9 @@ void main() {
     });
     test('fail (type not supported)', () {
       // prepare input
-      final object = Set.of(['h', 'e', 'l', 'l', 'o', '!']);
+      final object = {'h', 'o', 'l', 'a', '!'};
       // execute
-      testCall() => convertEncode(object);
+      dynamic testCall() => convertEncode(object);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonEncodingError>()));
     });

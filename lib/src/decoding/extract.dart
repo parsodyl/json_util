@@ -1,6 +1,6 @@
 import 'package:json_util/src/errors.dart';
 
-void _checkForBadSelectors(Iterable<Object> selectorList) {
+void _checkForBadSelectors(Iterable<Object?> selectorList) {
   selectorList.forEach((s) {
     if (s == null) {
       throw JsonExtractionError('null selector found');
@@ -11,16 +11,16 @@ void _checkForBadSelectors(Iterable<Object> selectorList) {
   });
 }
 
-T _castAs<T>(dynamic value) {
+T? _castAs<T>(dynamic value) {
   if (value != null && value is! T) {
     throw JsonExtractionError("value '$value' is not an instance of '$T'");
   }
-  return value as T;
+  return value as T?;
 }
 
 dynamic _extractNode(Object selector, dynamic parentNode) {
   if (selector is int) {
-    final list = _castAs<List<dynamic>>(parentNode);
+    final list = _castAs<List<dynamic>>(parentNode)!;
     try {
       return list[selector];
     } on RangeError {
@@ -30,7 +30,7 @@ dynamic _extractNode(Object selector, dynamic parentNode) {
     }
   }
   if (selector is String) {
-    final map = _castAs<Map<String, dynamic>>(parentNode);
+    final map = _castAs<Map<String, dynamic>>(parentNode)!;
     if (!map.containsKey(selector)) {
       final s = selector;
       throw JsonExtractionError(
@@ -41,9 +41,6 @@ dynamic _extractNode(Object selector, dynamic parentNode) {
 }
 
 dynamic extract(List<Object> selectorList, dynamic parentNode) {
-  if (selectorList == null) {
-    throw JsonExtractionError('selector list is required');
-  }
   if (selectorList.isEmpty) {
     return parentNode;
   }

@@ -6,22 +6,6 @@ import 'user.dart';
 
 void main() {
   group('null inputs >>', () {
-    test('map constructor', () {
-      // execute
-      final encodable = EncodableValue.map(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('list constructor', () {
-      // execute
-      final encodable = EncodableValue.list(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
     test('from primitive value (implicit)', () {
       // execute
       final encodable = EncodableValue.fromPrimitiveValue(null);
@@ -30,77 +14,9 @@ void main() {
       expect(encodable, isNotNull);
       expect(encodable.encode(), equals('null'));
     });
-    test('from primitive value (inferred)', () {
-      // prepare input
-      num aNum;
-      // execute
-      final encodable = EncodableValue.fromPrimitiveValue(aNum);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from primitive value (explicit)', () {
-      // execute
-      final encodable = EncodableValue.fromPrimitiveValue<num>(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from primitive value (type denied)', () {
-      // prepare input
-      Set aSet;
-      // execute
-      testCall() => EncodableValue.fromPrimitiveValue(aSet);
-      // check
-      expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
-    });
-    test('from primitive list (implicit)', () {
-      // execute
-      final encodable = EncodableValue.fromPrimitiveList(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from primitive list (inferred)', () {
-      // prepare value
-      List<num> aNumList;
-      // execute
-      final encodable = EncodableValue.fromPrimitiveList(aNumList);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from primitive list (explicit)', () {
-      // execute
-      final encodable = EncodableValue.fromPrimitiveList<num>(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from primitive list (type denied)', () {
-      // prepare input
-      List<Set> aSetList;
-      // execute
-      testCall() => EncodableValue.fromPrimitiveList(aSetList);
-      // check
-      expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
-    });
     test('from object', () {
       // execute
       final encodable = EncodableValue.fromObject(null);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-      expect(encodable.encode(), equals('null'));
-    });
-    test('from object list', () {
-      // execute
-      final encodable = EncodableValue.fromObjectList(null);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -116,9 +32,9 @@ void main() {
       expect(encodable, isNotNull);
       expect(encodable.encode(), equals('[]'));
     });
-    test('from primitive list (implicit)', () {
+    test('from primitive list (dynamic)', () {
       // execute
-      final encodable = EncodableValue.fromPrimitiveList([]);
+      final encodable = EncodableValue.fromPrimitiveList<dynamic>([]);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -126,7 +42,7 @@ void main() {
     });
     test('from primitive list (inferred)', () {
       // prepare input
-      final List<num> aNumList = [];
+      final aNumList = <num>[];
       // execute
       final encodable = EncodableValue.fromPrimitiveList(aNumList);
       // check
@@ -144,9 +60,9 @@ void main() {
     });
     test('from primitive list (type denied)', () {
       // prepare input
-      final List<Set> aSetList = [];
+      final aSetList = <Set>[];
       // execute
-      testCall() => EncodableValue.fromPrimitiveList(aSetList);
+      EncodableValue testCall() => EncodableValue.fromPrimitiveList(aSetList);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -160,7 +76,7 @@ void main() {
     });
     test('from object list (inferred)', () {
       // prepare input
-      final List<User> aUserList = [];
+      final aUserList = <User>[];
       // execute
       final encodable = EncodableValue.fromObjectList(aUserList);
       // check
@@ -187,14 +103,6 @@ void main() {
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
-    });
-    test('check null keys', () {
-      // prepare input
-      final someData = {null: 3.14};
-      // execute
-      testCall() => EncodableValue.map(someData);
-      // check
-      expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
   });
   group('list constructor >>', () {
@@ -256,9 +164,9 @@ void main() {
     });
     test('check primitive type', () {
       // prepare input
-      final someData = Set();
+      final someData = {};
       // execute
-      testCall() => EncodableValue.fromPrimitiveValue(someData);
+      EncodableValue testCall() => EncodableValue.fromPrimitiveValue(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -311,9 +219,9 @@ void main() {
     });
     test('check primitive type', () {
       // prepare input
-      final someData = [Set(), Set(), Set()];
+      final someData = [{}, {}, {}];
       // execute
-      testCall() => EncodableValue.fromPrimitiveList(someData);
+      EncodableValue testCall() => EncodableValue.fromPrimitiveList(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -323,31 +231,6 @@ void main() {
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
-    });
-    test('null filled (inferred)', () {
-      // prepare input
-      final List<num> someData = [null, null, null];
-      // execute
-      final encodable = EncodableValue.fromPrimitiveList(someData);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-    });
-    test('null filled (explicit)', () {
-      // execute
-      final encodable =
-          EncodableValue.fromPrimitiveList<num>([null, null, null]);
-      // check
-      expect(encodable, isA<EncodableValue>());
-      expect(encodable, isNotNull);
-    });
-    test('null filled (type denied)', () {
-      // prepare input
-      final List<Set> someData = [null, null, null];
-      // execute
-      testCall() => EncodableValue.fromPrimitiveList(someData);
-      // check
-      expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
   });
   group('from object >>', () {
@@ -372,7 +255,7 @@ void main() {
           username: 'Bret',
           email: 'Sincere@april.biz');
       // execute
-      final encodable = EncodableValue.fromObject(someData,
+      final encodable = EncodableValue.fromObject<User, String>(someData,
           encoder: (User user) => user.username);
       // check
       expect(encodable, isA<EncodableValue>());
@@ -428,7 +311,8 @@ void main() {
           username: 'Bret',
           email: 'Sincere@april.biz');
       // execute
-      testCall() => EncodableValue.fromObject<User, String>(someData);
+      EncodableValue testCall() =>
+          EncodableValue.fromObject<User, String>(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -440,16 +324,16 @@ void main() {
           username: 'Bret',
           email: 'Sincere@april.biz');
       // execute
-      testCall() => EncodableValue.fromObject(someData,
-          encoder: (User user) => Set.of([user.username, user.email]));
+      dynamic testCall() => EncodableValue.fromObject(someData,
+          encoder: (User user) => {user.username, user.email});
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
     test('check toJson()', () {
       // prepare input
-      final someData = Set.of([42]);
+      final someData = {42};
       // execute
-      testCall() => EncodableValue.fromObject(someData);
+      EncodableValue testCall() => EncodableValue.fromObject(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -481,7 +365,7 @@ void main() {
       ];
       // execute
       final encodable = EncodableValue.fromObjectList(someData,
-          encoder: (User user) => user.username);
+          encoder: (User? user) => user?.username);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -497,7 +381,7 @@ void main() {
       ];
       // execute
       final encodable = EncodableValue.fromObjectList(someData,
-          encoder: (User user) => user.toJson());
+          encoder: (User? user) => user?.toJson());
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -529,7 +413,7 @@ void main() {
       ];
       // execute
       final encodable = EncodableValue.fromObjectList<User, String>(someData,
-          encoder: (User user) => user.username);
+          encoder: (User? user) => user?.username);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -541,10 +425,12 @@ void main() {
             id: 1,
             name: 'Leanne Graham',
             username: 'Bret',
-            email: 'Sincere@april.biz')
+            email: 'Sincere@april.biz'),
+        null,
       ];
       // execute
-      testCall() => EncodableValue.fromObjectList<User, String>(someData);
+      EncodableValue testCall() =>
+          EncodableValue.fromObjectList<User, String>(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -558,18 +444,18 @@ void main() {
             email: 'Sincere@april.biz')
       ];
       // execute
-      testCall() => EncodableValue.fromObjectList(someData,
-          encoder: (User user) => Set.of([user.username, user.email]));
+      EncodableValue testCall() => EncodableValue.fromObjectList(someData,
+          encoder: (User? user) => {user?.username, user?.email});
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
     test('check toJson()', () {
       // prepare input
       final someData = [
-        Set.of([42])
+        {42}
       ];
       // execute
-      testCall() => EncodableValue.fromObjectList(someData);
+      EncodableValue testCall() => EncodableValue.fromObjectList(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -582,7 +468,7 @@ void main() {
     });
     test('null filled (inferred)', () {
       // prepare input
-      final List<User> someData = [null, null, null];
+      final someData = <User?>[null, null, null];
       // execute
       final encodable = EncodableValue.fromObjectList(someData);
       // check
@@ -592,7 +478,7 @@ void main() {
     test('null filled (explicit)', () {
       // execute
       final encodable =
-          EncodableValue.fromObjectList<User, Map<String, dynamic>>(
+          EncodableValue.fromObjectList<User?, Map<String, dynamic>>(
               [null, null, null]);
       // check
       expect(encodable, isA<EncodableValue>());

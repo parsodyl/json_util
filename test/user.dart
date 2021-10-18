@@ -1,8 +1,8 @@
 class User {
-  int id;
-  String name;
-  String username;
-  String email;
+  int? id;
+  String? name;
+  String? username;
+  String? email;
 
   User({
     this.id,
@@ -11,11 +11,11 @@ class User {
     this.email,
   });
 
-  static User fromJson(Map<String, dynamic> json) => User(
-      id: json['id'],
-      name: json['name'],
-      username: json['username'],
-      email: json['email']);
+  static User fromJson(Map<String, dynamic>? json) => User(
+      id: json?['id'],
+      name: json?['name'],
+      username: json?['username'],
+      email: json?['email']);
 
   Map<String, dynamic> toJson() => {
         'id': id,
