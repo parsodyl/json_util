@@ -74,13 +74,13 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// map.
-  Map<String, dynamic> asMap() => castAsMap(value);
+  Map<String, dynamic>? asMap() => castAsMap(value);
 
   /// Returns this decoded value as a [List<dynamic>].
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list.
-  List<dynamic> asList() => castAsList(value);
+  List<dynamic>? asList() => castAsList(value);
 
   /// Returns this decoded value as a primitive value (specified by [T]).
   ///
@@ -89,7 +89,7 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// primitive value or if [T] could not represents a primitive type.
-  T asPrimitiveValue<T>() => castAsPrimitiveValue<T>(value);
+  T? asPrimitiveValue<T>() => castAsPrimitiveValue<T>(value);
 
   /// Returns this decoded value as a list of primitive values (specified by
   /// [T]).
@@ -99,19 +99,18 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list of primitive values or if [T] could not represents a primitive type.
-  List<T> asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
+  List<T?>? asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
 
   /// Returns this decoded value as a dart object (specified by [T]), built
   /// using [transformer]).
   ///
-  /// If [skipIfNull] is set to `true`, transformation is no applied when this
+  /// If [skipIfNull] is set to `true`, transformation is not applied when this
   /// decoded value is null.
   ///
   /// Throws a [JsonTransformationError] if:
-  /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
-  T asObject<E, T>(ObjectTransformer<E, T> transformer,
+  T? asObject<E, T>(ObjectTransformer<E?, T?> transformer,
           {bool skipIfNull = false}) =>
       transformObject<E, T>(value, transformer, skipIfNull);
 
@@ -125,7 +124,7 @@ class DecodedValue {
   /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
-  List<T> asObjectList<E, T>(ObjectTransformer<E, T> transformer,
+  List<T?>? asObjectList<E, T>(ObjectTransformer<E?, T?> transformer,
           {bool skipNullValues = false}) =>
       transformObjectList<E, T>(value, transformer, skipNullValues);
 
