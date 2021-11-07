@@ -1,4 +1,4 @@
-# json_util ![Build](https://api.travis-ci.com/parsodyl/json_util.svg?branch=master) ![Coverage](https://raw.githubusercontent.com/parsodyl/json_util/master/coverage_badge.svg?sanitize=true)
+# json_util ![Build](https://api.travis-ci.com/parsodyl/json_util.svg?branch=master)
 
 Type-safe JSON-encoding and JSON-decoding utilities for Dart.
 
@@ -13,7 +13,7 @@ void main() {
   const myJson = '{"hello":"world"}';
   final decodedValue = DecodedValue.from(myJson);
   final map = decodedValue.asMap();
-  final encodableValue = EncodableValue.map(map);
+  final encodableValue = EncodableValue.map(map!);
   final yourJson = encodableValue.encode();
   print(myJson == yourJson); // true
 }

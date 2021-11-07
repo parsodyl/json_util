@@ -1,3 +1,7 @@
+## 0.7.0
+
+- Null safety migration.
+
 ## 0.6.0
 
 - JsonCastingError now extends TypeError instead of CastError (deprecated).
