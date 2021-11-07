@@ -149,7 +149,7 @@ void main() {
       // check
       expect(isResult, isFalse);
     }, onPlatform: {
-      'browser': [Skip("TODO: this fails on browser")],
+      'browser': [Skip('TODO: this fails on browser')],
     });
     test('bool (true)', () {
       // prepare input
@@ -304,7 +304,7 @@ void main() {
       // check
       expect(isResult, isFalse);
     }, onPlatform: {
-      'browser': [Skip("TODO: this fails on browser")],
+      'browser': [Skip('TODO: this fails on browser')],
     });
     test('bool list (true)', () {
       // prepare input
@@ -451,7 +451,7 @@ void main() {
       final source = '["pi", 3.14]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asMap();
+      dynamic testCall() => decoded.asMap();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -492,7 +492,7 @@ void main() {
       final source = '{"pi": 3.14}';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asList();
+      dynamic testCall() => decoded.asList();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -512,7 +512,7 @@ void main() {
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue();
+      dynamic testCall() => decoded.asPrimitiveValue();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -521,7 +521,7 @@ void main() {
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue<String>();
+      dynamic testCall() => decoded.asPrimitiveValue<String>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -530,7 +530,7 @@ void main() {
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue<Set>();
+      dynamic testCall() => decoded.asPrimitiveValue<Set>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -539,7 +539,7 @@ void main() {
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue<num>();
+      dynamic testCall() => decoded.asPrimitiveValue<num>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -578,11 +578,11 @@ void main() {
       final source = '42.0';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue<int>();
+      dynamic testCall() => decoded.asPrimitiveValue<int>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     }, onPlatform: {
-      'browser': [Skip("TODO: this fails on browser")],
+      'browser': [Skip('TODO: this fails on browser')],
     });
     test('success (double)', () {
       // prepare input
@@ -631,7 +631,7 @@ void main() {
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveList();
+      dynamic testCall() => decoded.asPrimitiveList();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -640,7 +640,7 @@ void main() {
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveList<num>();
+      dynamic testCall() => decoded.asPrimitiveList<num>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -649,7 +649,7 @@ void main() {
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveList<String>();
+      dynamic testCall() => decoded.asPrimitiveList<String>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -658,7 +658,7 @@ void main() {
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveList<Set>();
+      dynamic testCall() => decoded.asPrimitiveList<Set>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -717,7 +717,7 @@ void main() {
       final source = '[1, 2, 3.0]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asPrimitiveValue<int>();
+      dynamic testCall() => decoded.asPrimitiveValue<int>();
       // check
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
@@ -767,7 +767,7 @@ void main() {
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObject((value) => value);
+      dynamic testCall() => decoded.asObject((value) => value);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
@@ -776,18 +776,18 @@ void main() {
       final source = '42.0';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObject<int, String>((value) => '$value');
+      dynamic testCall() => decoded.asObject<int, String>((value) => '$value');
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     }, onPlatform: {
-      'browser': [Skip("TODO: this fails on browser")],
+      'browser': [Skip('TODO: this fails on browser')],
     });
     test('check encodable type #1 (wrong type - Set<String>)', () {
       // prepare input
       final source = '["h", "e", "l", "l", "o"]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded
+      dynamic testCall() => decoded
           .asObject<Set<String>, String>((set) => set?.reduce((a, b) => a + b));
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
@@ -881,7 +881,7 @@ void main() {
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObjectList((value) => value);
+      dynamic testCall() => decoded.asObjectList((value) => value);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
@@ -890,7 +890,7 @@ void main() {
       final source = '"hello!"';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObjectList((String? value) => value);
+      dynamic testCall() => decoded.asObjectList((String? value) => value);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
@@ -899,18 +899,19 @@ void main() {
       final source = '[42.0]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObjectList<int, String>((value) => '$value');
+      dynamic testCall() =>
+          decoded.asObjectList<int, String>((value) => '$value');
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     }, onPlatform: {
-      'browser': [Skip("TODO: this fails on browser")],
+      'browser': [Skip('TODO: this fails on browser')],
     });
     test('check encodable type #1 (wrong type - Set<String>)', () {
       // prepare input
       final source = '["h", "e", "l", "l", "o"]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.asObjectList<Set<String>, String>(
+      dynamic testCall() => decoded.asObjectList<Set<String>, String>(
           (set) => set?.reduce((a, b) => a + b));
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
@@ -921,7 +922,7 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       final castResult = decoded.asObjectList<List<dynamic>, String>((list) =>
-          list != null && list.isNotEmpty ? list[0].toUpperCase() : "");
+          list != null && list.isNotEmpty ? list[0].toUpperCase() : '');
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String?>>());
@@ -1003,7 +1004,7 @@ void main() {
       final source = '[{"pi": 3.14}]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.extractField([0.5]);
+      dynamic testCall() => decoded.extractField([0.5]);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
     });
@@ -1012,7 +1013,7 @@ void main() {
       final source = '[{"pi": 3.14}]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.extractField([1]);
+      dynamic testCall() => decoded.extractField([1]);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
     });
@@ -1021,7 +1022,7 @@ void main() {
       final source = '[{"pi": 3.14}]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.extractField([0, 'pie']);
+      dynamic testCall() => decoded.extractField([0, 'pie']);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
     });
@@ -1030,7 +1031,7 @@ void main() {
       final source = '[{"pi": 3.14}]';
       final decoded = DecodedValue.from(source);
       // execute
-      testCall() => decoded.extractField([0, 'pi', 'value']);
+      dynamic testCall() => decoded.extractField([0, 'pi', 'value']);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonExtractionError>()));
     });
