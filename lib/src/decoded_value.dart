@@ -70,17 +70,28 @@ class DecodedValue {
 
   // CAST
 
+  /// Returns this decoded value as `null`.
+  Null asNull() => castAsNull(value);
+
   /// Returns this decoded value as a [Map<String, dynamic>].
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// map.
-  Map<String, dynamic>? asMap() => castAsMap(value);
+  Map<String, dynamic> asMap() => castAsMap(value);
 
   /// Returns this decoded value as a [List<dynamic>].
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list.
-  List<dynamic>? asList() => castAsList(value);
+  List<dynamic> asList() => castAsList(value);
+
+  /// Returns this decoded value as a [List<Map<String, dynamic>>].
+  ///
+  /// Throws a [JsonCastingError] if this decoded value does not represents a
+  /// list of maps or if [includeNullValues] is set to `false` and a `null`
+  /// value in encountered.
+  List<Map<String, dynamic>?> asMapList({bool includeNullValues = true}) =>
+      castAsMapList(value, includeNullValues);
 
   /// Returns this decoded value as a primitive value (specified by [T]).
   ///
@@ -89,7 +100,7 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// primitive value or if [T] could not represents a primitive type.
-  T? asPrimitiveValue<T>() => castAsPrimitiveValue<T>(value);
+  T asPrimitiveValue<T>() => castAsPrimitiveValue<T>(value);
 
   /// Returns this decoded value as a list of primitive values (specified by
   /// [T]).
@@ -99,34 +110,26 @@ class DecodedValue {
   ///
   /// Throws a [JsonCastingError] if this decoded value does not represents a
   /// list of primitive values or if [T] could not represents a primitive type.
-  List<T?>? asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
+  List<T> asPrimitiveList<T>() => castAsPrimitiveList<T>(value);
 
   /// Returns this decoded value as a dart object (specified by [T]), built
   /// using [transformer]).
   ///
-  /// If [skipIfNull] is set to `true`, transformation is not applied when this
-  /// decoded value is null.
-  ///
   /// Throws a [JsonTransformationError] if:
   /// * [E] could not represent an encodable object.
   /// * this decoded value is not an instance of [T].
-  T? asObject<E, T>(ObjectTransformer<E?, T?> transformer,
-          {bool skipIfNull = false}) =>
-      transformObject<E, T>(value, transformer, skipIfNull);
+  T asObject<E, T>(ObjectTransformer<E, T> transformer) =>
+      transformObject<E, T>(value, transformer);
 
   /// Returns this decoded value as a list of dart objects (specified by [T]),
   /// built using [transformer]).
   ///
-  /// If [skipNullValues] is set to `true`, transformation is no applied when
-  /// a null value is encountered.
-  ///
   /// Throws a [JsonTransformationError] if:
-  /// * [transformer] is null.
   /// * [E] could not represent an encodable object.
-  /// * this decoded value is not an instance of [T].
-  List<T?>? asObjectList<E, T>(ObjectTransformer<E?, T?> transformer,
-          {bool skipNullValues = false}) =>
-      transformObjectList<E, T>(value, transformer, skipNullValues);
+  /// * this decoded value is not a list.
+  /// * this decoded value is not an instance of [List<T>].
+  List<T> asObjectList<E, T>(ObjectTransformer<E, T> transformer) =>
+      transformObjectList<E, T>(value, transformer);
 
   // EXTRACT
 
@@ -136,7 +139,7 @@ class DecodedValue {
   /// [selectorList] must only contain integers or strings. They represents
   /// list indexes or map keys, needed to reach the target subfield.
   ///
-  /// Throws a [JsonExtractionError] if [selectorList] is null or contains bad
+  /// Throws a [JsonExtractionError] if [selectorList] contains bad
   /// selectors (wrong types or keys and/or indexes that are not present).
   DecodedValue extractField(List<Object> selectorList) {
     final fieldNode = extract(selectorList, value);

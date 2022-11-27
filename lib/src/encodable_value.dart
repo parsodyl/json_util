@@ -34,7 +34,7 @@ class EncodableValue {
   ///
   /// Throws a [JsonPreparationError] if [T] could not represent a
   /// primitive type.
-  static EncodableValue fromPrimitiveList<T>(List<T?> list) =>
+  static EncodableValue fromPrimitiveList<T>(List<T> list) =>
       EncodableValue._(preparePrimitiveList<T>(list));
 
   /// Creates an [EncodableValue] from [value].
@@ -50,7 +50,7 @@ class EncodableValue {
   /// * [value] does not have a callable `.toJson()` method.
   /// * [E] does not match the `.toJson()` result type.
   static EncodableValue fromObject<N, E>(N value,
-      {ObjectEncoder<N, E?>? encoder}) {
+      {ObjectEncoder<N, E>? encoder}) {
     return EncodableValue._(prepareObject<N, E>(value, encoder));
   }
 
@@ -66,8 +66,8 @@ class EncodableValue {
   /// * [encoder] is provided, but [E] could not represent an encodable object.
   /// * [list] elements do not have a callable `.toJson()` method.
   /// * [E] does not match the `.toJson()` result type.
-  static EncodableValue fromObjectList<N, E>(List<N?> list,
-      {ObjectEncoder<N?, E?>? encoder}) {
+  static EncodableValue fromObjectList<N, E>(List<N> list,
+      {ObjectEncoder<N, E>? encoder}) {
     return EncodableValue._(prepareObjectList<N, E>(list, encoder));
   }
 

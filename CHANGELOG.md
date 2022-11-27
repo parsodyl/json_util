@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Added better soundness
+
 ## 0.7.0
 
 - Null safety migration.

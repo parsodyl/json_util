@@ -14,13 +14,65 @@ void main() {
       expect(encodable, isNotNull);
       expect(encodable.encode(), equals('null'));
     });
-    test('from object', () {
+    test('from primitive value (explicit)', () {
+      // execute
+      final String? input = null;
+      final encodable = EncodableValue.fromPrimitiveValue(input);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('null'));
+    });
+    test('from primitive list (implicit)', () {
+      // execute
+      final encodable = EncodableValue.fromPrimitiveList([null]);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('[null]'));
+    });
+    test('from primitive list (explicit)', () {
+      // execute
+      final List<String?> input = [null];
+      final encodable = EncodableValue.fromPrimitiveList(input);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('[null]'));
+    });
+    test('from object (implicit)', () {
       // execute
       final encodable = EncodableValue.fromObject(null);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
       expect(encodable.encode(), equals('null'));
+    });
+    test('from object (explicit)', () {
+      // execute
+      final User? input = null;
+      final encodable = EncodableValue.fromObject(input);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('null'));
+    });
+    test('from object list (implicit)', () {
+      // execute
+      final encodable = EncodableValue.fromObjectList([null]);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('[null]'));
+    });
+    test('from object list (explicit)', () {
+      // execute
+      final List<User?> input = [null];
+      final encodable = EncodableValue.fromObjectList(input);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+      expect(encodable.encode(), equals('[null]'));
     });
   });
   group('empty lists >>', () {
@@ -162,6 +214,15 @@ void main() {
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
     });
+    test('explicit type (Null)', () {
+      // prepare input
+      final someData = null;
+      // execute
+      final encodable = EncodableValue.fromPrimitiveValue<Null>(someData);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+    });
     test('check primitive type', () {
       // prepare input
       final someData = {};
@@ -232,6 +293,13 @@ void main() {
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
     });
+    test('empty (implicit)', () {
+      // execute
+      final encodable = EncodableValue.fromPrimitiveList([]);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+    });
   });
   group('from object >>', () {
     test('standard usage (w/ toJson())', () {
@@ -255,7 +323,7 @@ void main() {
           username: 'Bret',
           email: 'Sincere@april.biz');
       // execute
-      final encodable = EncodableValue.fromObject<User, String>(someData,
+      final encodable = EncodableValue.fromObject<User, String?>(someData,
           encoder: (User user) => user.username);
       // check
       expect(encodable, isA<EncodableValue>());
@@ -297,7 +365,7 @@ void main() {
           username: 'Bret',
           email: 'Sincere@april.biz');
       // execute
-      final encodable = EncodableValue.fromObject<User, String>(someData,
+      final encodable = EncodableValue.fromObject<User, String?>(someData,
           encoder: (user) => user.username);
       // check
       expect(encodable, isA<EncodableValue>());
@@ -365,7 +433,7 @@ void main() {
       ];
       // execute
       final encodable = EncodableValue.fromObjectList(someData,
-          encoder: (User? user) => user?.username);
+          encoder: (User user) => user.username);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -377,7 +445,8 @@ void main() {
             id: 1,
             name: 'Leanne Graham',
             username: 'Bret',
-            email: 'Sincere@april.biz')
+            email: 'Sincere@april.biz'),
+        null,
       ];
       // execute
       final encodable = EncodableValue.fromObjectList(someData,
@@ -412,8 +481,8 @@ void main() {
             email: 'Sincere@april.biz')
       ];
       // execute
-      final encodable = EncodableValue.fromObjectList<User, String>(someData,
-          encoder: (User? user) => user?.username);
+      final encodable = EncodableValue.fromObjectList<User, String?>(someData,
+          encoder: (User user) => user.username);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);
@@ -430,7 +499,7 @@ void main() {
       ];
       // execute
       EncodableValue testCall() =>
-          EncodableValue.fromObjectList<User, String>(someData);
+          EncodableValue.fromObjectList<User?, String>(someData);
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -445,7 +514,7 @@ void main() {
       ];
       // execute
       EncodableValue testCall() => EncodableValue.fromObjectList(someData,
-          encoder: (User? user) => {user?.username, user?.email});
+          encoder: (User user) => {user.username, user.email});
       // check
       expect(testCall, throwsA(TypeMatcher<JsonPreparationError>()));
     });
@@ -478,8 +547,15 @@ void main() {
     test('null filled (explicit)', () {
       // execute
       final encodable =
-          EncodableValue.fromObjectList<User?, Map<String, dynamic>>(
+          EncodableValue.fromObjectList<User?, Map<String, dynamic>?>(
               [null, null, null]);
+      // check
+      expect(encodable, isA<EncodableValue>());
+      expect(encodable, isNotNull);
+    });
+    test('empty (implicit)', () {
+      // execute
+      final encodable = EncodableValue.fromObjectList([]);
       // check
       expect(encodable, isA<EncodableValue>());
       expect(encodable, isNotNull);

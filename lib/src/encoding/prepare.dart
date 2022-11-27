@@ -3,7 +3,7 @@ import 'package:json_util/src/functions.dart';
 import 'package:json_util/src/misc/misc.dart';
 
 void _checkPrimitiveType<T>() {
-  if (!isPrimitiveType<T>()) {
+  if (!isPrimitiveType<T>() && !isPrimitiveNullableType<T>()) {
     throw JsonPreparationError("type '$T' is not a JSON primitive type");
   }
 }
@@ -14,9 +14,9 @@ void _checkEncodableType<T>() {
   }
 }
 
-E? _toEncodableObjectUsingToJson<E>(dynamic value) {
+E _toEncodableObjectUsingToJson<E>(dynamic value) {
   if (value == null) {
-    return null;
+    return value;
   }
   if (!hasToJsonMethod(value)) {
     throw JsonPreparationError(
@@ -29,15 +29,12 @@ E? _toEncodableObjectUsingToJson<E>(dynamic value) {
   return encodable;
 }
 
-T? preparePrimitiveValue<T>(T value) {
-  if (value == null && isNullOrDynamicType<T>()) {
-    return null;
-  }
+T preparePrimitiveValue<T>(T value) {
   _checkPrimitiveType<T>();
   return value;
 }
 
-List<T?> preparePrimitiveList<T>(List<T?> value) {
+List<T> preparePrimitiveList<T>(List<T> value) {
   if (T == dynamic && value.isEmpty) {
     return <T>[];
   }
@@ -45,7 +42,7 @@ List<T?> preparePrimitiveList<T>(List<T?> value) {
   return value;
 }
 
-E? prepareObject<N, E>(N value, [ObjectEncoder<N, E?>? encoder]) {
+E prepareObject<N, E>(N value, [ObjectEncoder<N, E>? encoder]) {
   if (encoder != null) {
     _checkEncodableType<E>();
     return encoder(value);
@@ -53,12 +50,12 @@ E? prepareObject<N, E>(N value, [ObjectEncoder<N, E?>? encoder]) {
   return _toEncodableObjectUsingToJson<E>(value);
 }
 
-List<E?>? prepareObjectList<N, E>(List<N?> value,
-    [ObjectEncoder<N?, E?>? encoder]) {
+List<E> prepareObjectList<N, E>(List<N> value,
+    [ObjectEncoder<N, E>? encoder]) {
   if (encoder != null) {
     _checkEncodableType<E>();
-    return value.map((n) => encoder(n)).toList(growable: false);
+    return List<E>.of(value.map(encoder));
   }
-  E? toEncodable(N? n) => _toEncodableObjectUsingToJson<E>(n);
-  return value.map(toEncodable).toList(growable: false);
+  E toEncodable(N n) => _toEncodableObjectUsingToJson<E>(n);
+  return List<E>.of(value.map(toEncodable));
 }

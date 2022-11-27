@@ -1,11 +1,11 @@
 name: json_util
 description: Type-safe JSON-encoding and JSON-decoding utilities for Dart.
-version: 0.7.0
+version: 1.0.0
 homepage: https://github.com/parsodyl/json_util
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dev_dependencies:
-  test: ^1.16.8
-  benchmark_harness: ^2.0.0
+  test: ^1.17.12
+  benchmark_harness: ^2.2.0

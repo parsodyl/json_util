@@ -15,7 +15,7 @@ class DecodingBenchmark extends BenchmarkBase {
   @override
   void run() {
     final decodedValue = DecodedValue.from(kJsonString);
-    final map = decodedValue.asMap()!;
+    final map = decodedValue.asMap();
     map.length;
   }
 

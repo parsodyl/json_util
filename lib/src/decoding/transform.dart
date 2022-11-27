@@ -8,37 +8,27 @@ void _checkEncodableType<E>() {
   }
 }
 
-T? _castAs<T>(dynamic value) {
-  if (value != null && value is! T) {
+T _castAs<T>(dynamic value) {
+  if (value is! T) {
     throw JsonTransformationError("value '$value' is not an instance of '$T'");
   }
-  return value as T?;
+  return value;
 }
 
-T? transformObject<E, T>(
-    dynamic value, ObjectTransformer<E?, T?> transformer, bool skipNull) {
+List<dynamic> _castAsList(dynamic value) {
+  return _castAs<List<dynamic>>(value);
+}
+
+T transformObject<E, T>(dynamic value, ObjectTransformer<E, T> transformer) {
   _checkEncodableType<E>();
   final decoded = _castAs<E>(value);
-  if (decoded == null && skipNull) {
-    return null;
-  }
   return transformer(decoded);
 }
 
-List<T?>? transformObjectList<E, T>(
-    dynamic value, ObjectTransformer<E?, T?> transformer, bool skipNull) {
-  final list = _castAs<List<dynamic>>(value);
-  if (list == null) {
-    return null;
-  }
+List<T> transformObjectList<E, T>(
+    dynamic value, ObjectTransformer<E, T> transformer) {
   _checkEncodableType<E>();
-  T? transformElement(dynamic e) {
-    final decoded = _castAs<E>(e);
-    if (decoded == null && skipNull) {
-      return null;
-    }
-    return transformer(decoded);
-  }
-
-  return list.map(transformElement).toList(growable: false);
+  final list = _castAsList(value);
+  T transformElement(dynamic e) => transformer(_castAs<E>(e));
+  return List<T>.of(list.map(transformElement));
 }

@@ -415,6 +415,27 @@ void main() {
       expect(isResult, isFalse);
     });
   });
+  group('cast as null >>', () {
+    test('success (std)', () {
+      // prepare input
+      final source = 'null';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asNull();
+      // check
+      expect(castResult, isNull);
+      expect(castResult, isA<Null>());
+    });
+    test('fail (not null)', () {
+      // prepare input
+      final source = '[]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      dynamic testCall() => decoded.asNull();
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
+    });
+  });
   group('cast as map >>', () {
     test('success (std)', () {
       // prepare input
@@ -425,15 +446,6 @@ void main() {
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<Map<String, dynamic>>());
-    });
-    test('success (null)', () {
-      // prepare input
-      final source = 'null';
-      final decoded = DecodedValue.from(source);
-      // execute
-      final castResult = decoded.asMap();
-      // check
-      expect(castResult, isNull);
     });
     test('success (empty)', () {
       // prepare input
@@ -467,15 +479,6 @@ void main() {
       expect(castResult, isNotNull);
       expect(castResult, isA<List<dynamic>>());
     });
-    test('success (null)', () {
-      // prepare input
-      final source = 'null';
-      final decoded = DecodedValue.from(source);
-      // execute
-      final castResult = decoded.asList();
-      // check
-      expect(castResult, isNull);
-    });
     test('success (empty)', () {
       // prepare input
       final source = '[]';
@@ -497,13 +500,74 @@ void main() {
       expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
     });
   });
+  group('cast as map list >>', () {
+    test('success (std)', () {
+      // prepare input
+      final source = '[{"pi": 3.14}]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asMapList();
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<Map<String, dynamic>?>>());
+    });
+    test('success (empty)', () {
+      // prepare input
+      final source = '[]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asMapList();
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<Map<String, dynamic>?>>());
+      expect(castResult, isEmpty);
+    });
+    test('success (null filled)', () {
+      // prepare input
+      final source = '[null, null, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asMapList();
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<Map<String, dynamic>?>>());
+    });
+    test('success (null partially filled)', () {
+      // prepare input
+      final source = '[null, null, {"pi": 3.14}]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asMapList();
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<Map<String, dynamic>?>>());
+    });
+    test('fail (not a list)', () {
+      // prepare input
+      final source = '{"pi": 3.14}';
+      final decoded = DecodedValue.from(source);
+      // execute
+      dynamic testCall() => decoded.asMapList();
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
+    });
+    test('fail (null encountered)', () {
+      // prepare input
+      final source = '[{"pi": 3.14}, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      dynamic testCall() => decoded.asMapList(includeNullValues: false);
+      // check
+      expect(testCall, throwsA(TypeMatcher<JsonCastingError>()));
+    });
+  });
   group('cast as primitive value >>', () {
     test('success (null)', () {
       // prepare input
       final source = 'null';
       final decoded = DecodedValue.from(source);
       // execute
-      final castResult = decoded.asPrimitiveValue<String>();
+      final castResult = decoded.asPrimitiveValue<String?>();
       // check
       expect(castResult, isNull);
     });
@@ -606,15 +670,6 @@ void main() {
     });
   });
   group('cast as primitive list >>', () {
-    test('success (null)', () {
-      // prepare input
-      final source = 'null';
-      final decoded = DecodedValue.from(source);
-      // execute
-      final castResult = decoded.asPrimitiveList<String>();
-      // check
-      expect(castResult, isNull);
-    });
     test('success (empty)', () {
       // prepare input
       final source = '[]';
@@ -667,7 +722,7 @@ void main() {
       final source = '[null, null, null]';
       final decoded = DecodedValue.from(source);
       // execute
-      final castResult = decoded.asPrimitiveList<String>();
+      final castResult = decoded.asPrimitiveList<String?>();
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String?>>());
@@ -677,7 +732,7 @@ void main() {
       final source = '["hello", null, null]';
       final decoded = DecodedValue.from(source);
       // execute
-      final castResult = decoded.asPrimitiveList<String>();
+      final castResult = decoded.asPrimitiveList<String?>();
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String?>>());
@@ -743,7 +798,7 @@ void main() {
     });
   });
   group('cast as object >>', () {
-    test('success (null - not skipped)', () {
+    test('success (null - implicit)', () {
       // prepare input
       final source = 'null';
       final decoded = DecodedValue.from(source);
@@ -751,25 +806,28 @@ void main() {
       final castResult = decoded.asObject((String? value) => value);
       // check
       expect(castResult, isNull);
+      expect(castResult, isA<String?>());
     });
-    test('success (null - skipped)', () {
+    test('success (null - explicit)', () {
       // prepare input
       final source = 'null';
       final decoded = DecodedValue.from(source);
       // execute
-      final castResult = decoded.asObject((List? value) => value?[0] as String,
-          skipIfNull: true);
+      final castResult = decoded.asObject((List? value) => value?[0] as String?);
       // check
       expect(castResult, isNull);
+      expect(castResult, isA<String?>());
     });
-    test('fail (type not specified)', () {
+    test('success (type not specified)', () {
       // prepare input
       final source = '42';
       final decoded = DecodedValue.from(source);
       // execute
-      dynamic testCall() => decoded.asObject((value) => value);
+      final castResult = decoded.asObject((value) => value);
       // check
-      expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
+      expect(castResult, isNotNull);
+      expect(castResult, isA<Object>());
+      expect(castResult, isA<int>());
     });
     test('fail (wrong type)', () {
       // prepare input
@@ -788,7 +846,7 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       dynamic testCall() => decoded
-          .asObject<Set<String>, String>((set) => set?.reduce((a, b) => a + b));
+          .asObject<Set<String>, String>((set) => set.reduce((a, b) => a + b));
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
@@ -798,7 +856,7 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       final castResult = decoded.asObject<List<dynamic>, String>(
-          (list) => list?.reduce((a, b) => a + b));
+          (list) => list.reduce((a, b) => a + b));
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<String>());
@@ -822,10 +880,10 @@ void main() {
       // execute
       final castResult = decoded.asObject<Map<String, dynamic>, User>(
         (map) => User(
-          id: map?['id'],
-          name: map?['name'],
-          username: map?['username'],
-          email: map?['email'],
+          id: map['id'],
+          name: map['name'],
+          username: map['username'],
+          email: map['email'],
         ),
       );
       // check
@@ -834,15 +892,6 @@ void main() {
     });
   });
   group('cast as object list >>', () {
-    test('success (null)', () {
-      // prepare input
-      final source = 'null';
-      final decoded = DecodedValue.from(source);
-      // execute
-      final castResult = decoded.asObjectList((String? value) => value);
-      // check
-      expect(castResult, isNull);
-    });
     test('success (empty)', () {
       // prepare input
       final source = '[]';
@@ -854,7 +903,7 @@ void main() {
       expect(castResult, isA<List<String?>>());
       expect(castResult, isEmpty);
     });
-    test('success (null filled - not skipped)', () {
+    test('success (null filled)', () {
       // prepare input
       final source = '[null, null, "X"]';
       final decoded = DecodedValue.from(source);
@@ -864,26 +913,37 @@ void main() {
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String?>>());
     });
-    test('success (null filled - skipped)', () {
+    test('success (partially null filled)', () {
       // prepare input
       final source = '[null, null, ["X"]]';
       final decoded = DecodedValue.from(source);
       // execute
-      final castResult = decoded.asObjectList(
-          (List? value) => value?[0] as String,
-          skipNullValues: true);
+      final castResult =
+          decoded.asObjectList((List? value) => value?[0] as String?);
       // check
       expect(castResult, isNotNull);
       expect(castResult, isA<List<String?>>());
     });
-    test('fail (type not specified)', () {
+    test('success (type not specified)', () {
       // prepare input
       final source = '[42]';
       final decoded = DecodedValue.from(source);
       // execute
-      dynamic testCall() => decoded.asObjectList((value) => value);
+      final castResult = decoded.asObjectList((value) => value);
       // check
-      expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<Object?>>());
+      expect(castResult, isNot(isA<List<int>>()));
+    });
+    test('success (type specified)', () {
+      // prepare input
+      final source = '[42]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObjectList((value) => value as int);
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<int>>());
     });
     test('fail (not a list)', () {
       // prepare input
@@ -912,7 +972,7 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       dynamic testCall() => decoded.asObjectList<Set<String>, String>(
-          (set) => set?.reduce((a, b) => a + b));
+          (set) => set.reduce((a, b) => a + b));
       // check
       expect(testCall, throwsA(TypeMatcher<JsonTransformationError>()));
     });
@@ -922,10 +982,10 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       final castResult = decoded.asObjectList<List<dynamic>, String>((list) =>
-          list != null && list.isNotEmpty ? list[0].toUpperCase() : '');
+          list.isNotEmpty ? list[0].toUpperCase() : '');
       // check
       expect(castResult, isNotNull);
-      expect(castResult, isA<List<String?>>());
+      expect(castResult, isA<List<String>>());
     });
     test('success (User - implicit type)', () {
       // prepare input
@@ -936,7 +996,7 @@ void main() {
       final castResult = decoded.asObjectList(User.fromJson);
       // check
       expect(castResult, isNotNull);
-      expect(castResult, isA<List<User?>>());
+      expect(castResult, isA<List<User>>());
     });
     test('success (User - explicit type)', () {
       // prepare input
@@ -946,11 +1006,49 @@ void main() {
       // execute
       final castResult = decoded.asObjectList<Map<String, dynamic>, User>(
         (map) => User(
+          id: map['id'],
+          name: map['name'],
+          username: map['username'],
+          email: map['email'],
+        ),
+      );
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<User>>());
+    });
+    test('success (User - some null values #1)', () {
+      // prepare input
+      final source = '[{"id":1,"name":"Leanne Graham","username":"Bret",'
+          '"email":"sincere@april.biz"}, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObjectList<Map<String, dynamic>?, User>(
+            (map) => User(
           id: map?['id'],
           name: map?['name'],
           username: map?['username'],
           email: map?['email'],
         ),
+      );
+      // check
+      expect(castResult, isNotNull);
+      expect(castResult, isA<List<User>>());
+    });
+    test('success (User - some null values #2)', () {
+      // prepare input
+      final source = '[{"id":1,"name":"Leanne Graham","username":"Bret",'
+          '"email":"sincere@april.biz"}, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final castResult = decoded.asObjectList<Map<String, dynamic>?, User?>(
+        (map) => map == null
+            ? null
+            : User(
+                id: map['id'],
+                name: map['name'],
+                username: map['username'],
+                email: map['email'],
+              ),
       );
       // check
       expect(castResult, isNotNull);
@@ -1054,8 +1152,8 @@ void main() {
       final decoded2 = DecodedValue.from(condensedSource);
       // execute
       final testMap = <DecodedValue, int>{};
-      testMap[decoded1] = decoded1.asMap()!['one'];
-      testMap[decoded2] = decoded1.asMap()!['two'];
+      testMap[decoded1] = decoded1.asMap()['one'];
+      testMap[decoded2] = decoded1.asMap()['two'];
       // check
       expect(testMap[decoded1], equals(1));
       expect(testMap[decoded2], equals(2));
