@@ -34,7 +34,7 @@ class DecodedValue {
   /// Primitive values are of the types [String], [num], [bool] or [Null].
   /// As they are subtypes of [num], [int] or [double] will be also accepted.
   ///
-  /// Throws a [JsonCheckingError] if [T] could not represent a
+  /// Throws a [JsonCheckingError] if [T] does not represent a
   /// primitive type.
   bool isPrimitiveValue<T>() => checkPrimitiveValue<T>(value);
 
@@ -44,13 +44,9 @@ class DecodedValue {
   /// Primitive values are of the types [String], [num], [bool] or [Null].
   /// As they are subtypes of [num], [int] or [double] will be also accepted.
   ///
-  /// If [includeNullValues] is set to `true`, null values are also taken
-  /// into account.
-  ///
   /// Throws a [JsonCheckingError] if [T] could not represent a
   /// primitive type.
-  bool isPrimitiveList<T>({bool includeNullValues = false}) =>
-      checkPrimitiveList<T>(value, includeNullValues);
+  bool isPrimitiveList<T>() => checkPrimitiveList<T>(value);
 
   /// Returns `true` if this decoded value represents a list of maps.
   ///
@@ -61,6 +57,9 @@ class DecodedValue {
 
   /// Returns `true` if this decoded value represents a null value.
   bool get isNull => checkNull(value);
+
+  /// Returns `true` if this decoded value represents a null filled list.
+  bool get isNullFilledList => checkNullFilledList(value);
 
   /// Returns `true` if this decoded value represents an empty list.
   bool get isEmptyList => checkEmptyList(value);

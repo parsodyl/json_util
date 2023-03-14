@@ -201,7 +201,16 @@ void main() {
       final source = '[null, null, null]';
       final decoded = DecodedValue.from(source);
       // execute
-      final isResult = decoded.isPrimitiveList<String>(includeNullValues: true);
+      final isResult = decoded.isPrimitiveList<String?>();
+      // check
+      expect(isResult, isTrue);
+    });
+    test('primitive list (null filled #3)', () {
+      // prepare input
+      final source = '[null, null, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final isResult = decoded.isPrimitiveList<Null>();
       // check
       expect(isResult, isTrue);
     });
@@ -219,9 +228,18 @@ void main() {
       final source = '["hello", null, null]';
       final decoded = DecodedValue.from(source);
       // execute
-      final isResult = decoded.isPrimitiveList<String>(includeNullValues: true);
+      final isResult = decoded.isPrimitiveList<String?>();
       // check
       expect(isResult, isTrue);
+    });
+    test('primitive list (null partially filled #3)', () {
+      // prepare input
+      final source = '["hello", null, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final isResult = decoded.isPrimitiveList<Null>();
+      // check
+      expect(isResult, isFalse);
     });
     test('primitive list (void)', () {
       // prepare input
@@ -375,6 +393,33 @@ void main() {
       final decoded = DecodedValue.from(source);
       // execute
       final isResult = decoded.isMapList();
+      // check
+      expect(isResult, isFalse);
+    });
+    test('null filled list (true)', () {
+      // prepare input
+      final source = '[null, null, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final isResult = decoded.isNullFilledList;
+      // check
+      expect(isResult, isTrue);
+    });
+    test('null filled list (false #1)', () {
+      // prepare input
+      final source = '[null, 1, null]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final isResult = decoded.isNullFilledList;
+      // check
+      expect(isResult, isFalse);
+    });
+    test('null filled list (false #2)', () {
+      // prepare input
+      final source = '[]';
+      final decoded = DecodedValue.from(source);
+      // execute
+      final isResult = decoded.isNullFilledList;
       // check
       expect(isResult, isFalse);
     });
