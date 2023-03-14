@@ -1,3 +1,8 @@
+## 2.0.0
+
+- includeNullValues removed from isPrimitiveList()
+- added new property isNullFilledList
+
 ## 1.0.0
 
 - Added better soundness
